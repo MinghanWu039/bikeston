@@ -1,0 +1,57 @@
+#map {
+    width: 100%;    /* Adjust width to your desired size */
+    height: 80vh;   /* Adjust height to your desired size */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: subtle shadow for effect */
+    border-radius: 8px; /* Optional: rounded corners */
+  }
+
+#map svg {
+    position: absolute;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+  }
+
+#map circle {
+    pointer-events: auto;
+    --color-departures: steelblue;
+    --color-arrivals: darkorange;
+    --color: color-mix(
+        in oklch,
+        var(--color-departures) calc(100% * var(--departure-ratio)),
+        var(--color-arrivals)
+    );
+    fill: var(--color);
+}
+
+div.legend {
+    --color-departures: steelblue;
+    --color-arrivals: darkorange;
+    --color-balanced: color-mix(
+        in oklch,
+        var(--color-departures) 50%,
+        var(--color-arrivals)
+    );
+    display: flex;
+    margin-block: 0.5em;
+    > div {
+        flex: 1;
+        gap: 1px;
+        color: white;
+        padding: 0.5em;
+        font-weight: bold;
+    }
+    > div[style*="--departure-ratio: 1"] {
+        background-color: var(--color-departures);
+        text-align: left;
+    }
+    > div[style*="--departure-ratio: 0"] {
+        background-color: var(--color-arrivals);
+        text-align: right;
+    }
+    > div[style*="--departure-ratio: 0.5"] {
+        background-color: var(--color-balanced);
+        text-align: center;
+    }
+}
